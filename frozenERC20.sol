@@ -1,10 +1,5 @@
-/**
- *Submitted for verification at Etherscan.io on 2017-10-11
-*/
-
 //! FrozenToken ECR20-compliant token contract
-//! By Parity Technologies, 2017.
-//! Released under the Apache Licence 2.
+
 
 pragma solidity ^0.4.17;
 
@@ -23,8 +18,6 @@ contract Owned {
 // implement most of the API).
 // All token balances are generally non-transferable.
 // All "tokens" belong to the owner (who is uniquely liquid) at construction.
-// Liquid accounts can make other accounts liquid and send their tokens
-// to other axccounts.
 contract FrozenToken is Owned {
 	event Transfer(address indexed from, address indexed to, uint256 value);
 
