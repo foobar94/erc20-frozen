@@ -28,12 +28,6 @@ contract Owned {
 contract FrozenToken is Owned {
 	event Transfer(address indexed from, address indexed to, uint256 value);
 
-	// this is as basic as can be, only the associated balance & allowances
-	struct Account {
-		uint balance;
-		bool liquid;
-	}
-
 	// constructor sets the parameters of execution, _totalSupply is all units
 	function FrozenToken(uint _totalSupply, address _owner)
         public
@@ -41,35 +35,23 @@ contract FrozenToken is Owned {
 	{
 		totalSupply = _totalSupply;
 		owner = _owner;
-		accounts[_owner].balance = totalSupply;
-		accounts[_owner].liquid = true;
+		accounts[_owner] = totalSupply;
 	}
 
 	// balance of a specific address
 	function balanceOf(address _who) public constant returns (uint256) {
-		return accounts[_who].balance;
-	}
-
-	// make an account liquid: only liquid accounts can do this.
-	function makeLiquid(address _to)
-		public
-		when_liquid(msg.sender)
-		returns(bool)
-	{
-		accounts[_to].liquid = true;
-		return true;
+		return accounts[_who];
 	}
 
 	// transfer
 	function transfer(address _to, uint256 _value)
 		public
-		when_owns(msg.sender, _value)
-		when_liquid(msg.sender)
+		only_owner
 		returns(bool)
 	{
 		Transfer(msg.sender, _to, _value);
-		accounts[msg.sender].balance -= _value;
-		accounts[_to].balance += _value;
+		accounts[msg.sender] -= _value;
+		accounts[_to] += _value;
 
 		return true;
 	}
@@ -77,17 +59,6 @@ contract FrozenToken is Owned {
 	// no default function, simple contract only, entry-level users
 	function() public {
 		assert(false);
-	}
-
-	// the balance should be available
-	modifier when_owns(address _owner, uint _amount) {
-		require (accounts[_owner].balance >= _amount);
-		_;
-	}
-
-	modifier when_liquid(address who) {
-		require (accounts[who].liquid);
-		_;
 	}
 
 	// a value should be > 0
@@ -100,10 +71,10 @@ contract FrozenToken is Owned {
 	uint public totalSupply;
 
 	// Storage and mapping of all balances & allowances
-	mapping (address => Account) accounts;
+	mapping (address => uint256) accounts;
 
 	// Conventional metadata.
-	string public constant name = "DOT Allocation Indicator";
-	string public constant symbol = "DOT";
+	string public constant name = "AVA Allocation Indicator";
+	string public constant symbol = "AVA";
 	uint8 public constant decimals = 3;
 }
