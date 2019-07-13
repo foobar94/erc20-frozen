@@ -22,6 +22,11 @@ contract FrozenToken is Owned {
 	function balanceOf(address _who) public view returns (uint256) {
 		return accounts[_who];
 	}
+	
+	//returns the totalSupply of the token.
+	function totalSupply() constant returns (uint256 _totalSupply) {
+        	_totalSupply = totalSupply;
+    	}
 	// transfer
 	function transfer(address _to, uint256 _value)
 		public
