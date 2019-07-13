@@ -26,9 +26,9 @@ contract FrozenToken is Owned, ERC20Interface {
         public
 		when_non_zero(_totalSupply)
 	{
-		totalSupply = _totalSupply;
+		totalTokenSupply = _totalSupply;
 		owner = _owner;
-		accounts[_owner] = totalSupply;
+		accounts[_owner] = totalTokenSupply;
 	}
 	// balance of a specific address
 	function balanceOf(address _who) public view returns (uint256) {
@@ -55,7 +55,7 @@ contract FrozenToken is Owned, ERC20Interface {
 		_;
 	}
 	// Available token supply
-	uint public totalSupply;
+	uint public totalTokenSupply;
 	// Storage and mapping of all balances & allowances
 	mapping (address => uint256) accounts;
 	// Conventional metadata.
