@@ -23,7 +23,7 @@ contract FrozenToken is Owned, ERC20Interface {
 	event Transfer(address indexed from, address indexed to, uint256 value);
 	// constructor sets the parameters of execution, _totalSupply is all units
 	constructor(uint _totalSupply, address _owner)
-        public
+        	public
 		when_non_zero(_totalSupply)
 	{
 		totalTokenSupply = _totalSupply;
