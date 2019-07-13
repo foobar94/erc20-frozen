@@ -35,6 +35,11 @@ contract FrozenToken is Owned, ERC20Interface {
 		return accounts[_who];
 	}
 	
+	//returns total supply
+	function totalSupply() public view returns (uint256) {
+        	return totalTokenSupply;
+    	}
+	
 	// transfer
 	function transfer(address _to, uint256 _value)
 		public
