@@ -6,8 +6,20 @@ contract Owned {
 	address public owner;
 }
 
+contract ERC20Interface {
+    function totalSupply() public view returns (uint);
+    function balanceOf(address tokenOwner) public view returns (uint balance);
+    function allowance(address tokenOwner, address spender) public view returns (uint remaining);
+    function transfer(address to, uint tokens) public returns (bool success);
+    function approve(address spender, uint tokens) public returns (bool success);
+    function transferFrom(address from, address to, uint tokens) public returns (bool success);
+
+    event Transfer(address indexed from, address indexed to, uint tokens);
+    event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
+}
+
 // All "tokens" belong to the owner at construction.
-contract FrozenToken is Owned {
+contract FrozenToken is Owned, ERC20Interface {
 	event Transfer(address indexed from, address indexed to, uint256 value);
 	// constructor sets the parameters of execution, _totalSupply is all units
 	constructor(uint _totalSupply, address _owner)
@@ -23,10 +35,6 @@ contract FrozenToken is Owned {
 		return accounts[_who];
 	}
 	
-	//returns the totalSupply of the token.
-	function totalSupply() constant returns (uint256 _totalSupply) {
-        	_totalSupply = totalSupply;
-    	}
 	// transfer
 	function transfer(address _to, uint256 _value)
 		public
